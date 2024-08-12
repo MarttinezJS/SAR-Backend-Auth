@@ -1,9 +1,36 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
+import { jwt } from "hono/jwt";
+import { loginSchema, userSchema } from "./schemas";
+import {
+  checkToken,
+  createUser,
+  gentUser,
+  getAll,
+  login,
+  signUp,
+} from "./controllers";
+import { validateFields } from "./middlewares/validateFields";
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.use(
+  "/users/*",
+  jwt({
+    secret: process.env.SECRET_SEED ?? "",
+  })
+);
 
-export default app
+app.get("/users", getAll);
+app.get("/users/token", checkToken);
+app.get("/users/:id", gentUser);
+app.post("/users", validateFields(userSchema), createUser);
+app.post("/login", validateFields(loginSchema), login);
+app.post("/sign-up", validateFields(userSchema), signUp);
+app.post("/8B7HMzd49AqIyo", createUser);
+
+console.info(`Servidor corriendo en el puerto: ${process.env.PORT}`);
+
+Bun.serve({
+  fetch: app.fetch,
+  port: process.env.PORT,
+});
