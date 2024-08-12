@@ -2,6 +2,7 @@ import { Context, Env } from "hono";
 import { findUser, saveUser } from "../models";
 import { sign } from "jsonwebtoken";
 import { Usuarios } from "../generated/client";
+import { secrets } from "../config/vaultConfig";
 
 export const signUp = async (c: Context<Env, "/sign-up", {}>) => {
   const { password, ...body } = (await c.req.json()) as Usuarios;
@@ -22,7 +23,7 @@ export const signUp = async (c: Context<Env, "/sign-up", {}>) => {
       password: cryptPassword,
     })) as Usuarios;
     const { role, id } = user;
-    const token = await sign({ role, id }, process.env.SECRET_SEED ?? "");
+    const token = await sign({ role, id }, secrets.jwt_seed);
     return c.json(
       {
         error: false,

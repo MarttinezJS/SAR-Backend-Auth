@@ -5,9 +5,8 @@ services:
     build: .
     restart: always
     environment:
-      PORT: $PORT
+      PORT: 80
       DATABASE_URL: $DATABASE_URL
-      SECRET_SEED: $SECRET_SEED
       PRISMA_BINARY: '["debian-openssl-1.1.x"]'
 
     

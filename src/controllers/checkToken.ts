@@ -1,10 +1,11 @@
 import { Context, Env } from "hono";
 import { verify } from "hono/jwt";
+import { secrets } from "../config/vaultConfig";
 
 export const checkToken = async (context: Context<Env, "/users/token", {}>) => {
   try {
     const { authorization } = context.req.header();
-    const resp = await verify(authorization, process.env.SECRET_SEED ?? "");
+    const resp = await verify(authorization, secrets.jwt_seed);
     if (resp) {
       return context.json({ error: false, message: "verificado", resp }, 200);
     }
