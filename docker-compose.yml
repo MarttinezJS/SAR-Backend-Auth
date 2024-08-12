@@ -1,0 +1,13 @@
+services:
+  autentication-backend:
+    container_name: ${PROYECT_CONTEXT}-backend
+    image: ${PROYECT_CONTEXT}-backend:0.1.0
+    build: .
+    restart: always
+    environment:
+      PORT: $PORT
+      DATABASE_URL: $DATABASE_URL
+      SECRET_SEED: $SECRET_SEED
+      PRISMA_BINARY: '["debian-openssl-1.1.x"]'
+
+    
