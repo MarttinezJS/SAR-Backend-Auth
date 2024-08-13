@@ -1,13 +1,22 @@
+networks:
+  sigue-adelante-radio:
+    external: true
+
 services:
   autentication-backend:
     container_name: ${PROYECT_CONTEXT}-backend
-    image: ${PROYECT_CONTEXT}-backend:0.1.0
+    image: ${PROYECT_CONTEXT}-backend-sar:1.0.0
     build: .
     restart: always
+    networks:
+      - sigue-adelante-radio
     environment:
-      PORT: $PORT
+      PORT: 80
       DATABASE_URL: $DATABASE_URL
-      SECRET_SEED: $SECRET_SEED
       PRISMA_BINARY: '["debian-openssl-1.1.x"]'
+      ROL_ID: $ROL_ID
+      SECRET_ID: $SECRET_ID
+      VAULT_HOST: vault
+      VAULT_PORT: 8200
 
     
