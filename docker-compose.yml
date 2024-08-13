@@ -4,8 +4,8 @@ networks:
 
 services:
   autentication-backend:
-    container_name: ${PROYECT_CONTEXT}-backend
-    image: ${PROYECT_CONTEXT}-backend-sar:1.0.0
+    container_name: $sar-auth-backend
+    image: sar-auth-backend:1.0.0
     build: .
     restart: always
     networks:
