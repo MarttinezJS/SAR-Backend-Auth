@@ -4,7 +4,7 @@ networks:
 
 services:
   autentication-backend:
-    container_name: $sar-auth-backend
+    container_name: sar-auth-backend
     image: sar-auth-backend:1.0.0
     build: .
     restart: always
