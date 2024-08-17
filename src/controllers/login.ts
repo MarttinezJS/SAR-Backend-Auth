@@ -29,7 +29,7 @@ const login = async (c: Context<Env, "/", {}>) => {
       );
     }
     const { role, id } = found;
-    const token = await sign({ role, id }, secrets.jwt_seed);
+    const token = await sign({ role, id }, process.env.JWT_SEED ?? "");
 
     return c.json({
       error: false,

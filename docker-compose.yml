@@ -14,9 +14,4 @@ services:
       PORT: 80
       DATABASE_URL: $DATABASE_URL
       PRISMA_BINARY: '["debian-openssl-1.1.x"]'
-      ROL_ID: $ROL_ID
-      SECRET_ID: $SECRET_ID
-      VAULT_HOST: vault
-      VAULT_PORT: 8200
-
     

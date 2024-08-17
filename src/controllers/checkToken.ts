@@ -5,7 +5,7 @@ import { secrets } from "../config/vaultConfig";
 export const checkToken = async (context: Context<Env, "/users/token", {}>) => {
   try {
     const { authorization } = context.req.header();
-    const resp = await verify(authorization, secrets.jwt_seed);
+    const resp = await verify(authorization, process.env.JWT_SEED ?? "");
     if (resp) {
       return context.json({ error: false, message: "verificado", resp }, 200);
     }

@@ -23,7 +23,7 @@ export const signUp = async (c: Context<Env, "/sign-up", {}>) => {
       password: cryptPassword,
     })) as Usuarios;
     const { role, id } = user;
-    const token = await sign({ role, id }, secrets.jwt_seed);
+    const token = await sign({ role, id }, process.env.JWT_SEED ?? "");
     return c.json(
       {
         error: false,
