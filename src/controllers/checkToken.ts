@@ -1,6 +1,5 @@
 import { Context, Env } from "hono";
 import { verify } from "hono/jwt";
-import { secrets } from "../config/vaultConfig";
 
 export const checkToken = async (context: Context<Env, "/users/token", {}>) => {
   try {
