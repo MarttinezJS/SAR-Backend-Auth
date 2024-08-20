@@ -2,4 +2,5 @@
 node_modules/
 bun.lockb
 .env
-src/generated
+src/generated/*
+generated/

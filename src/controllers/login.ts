@@ -1,6 +1,7 @@
 import { Context, Env } from "hono";
 import { sign } from "hono/jwt";
 import { findUser } from "../models";
+import { generateJwt } from "../services";
 
 const login = async (c: Context<Env, "/", {}>) => {
   const { username, password } = await c.req.json();
@@ -28,7 +29,8 @@ const login = async (c: Context<Env, "/", {}>) => {
       );
     }
     const { role, id, name } = found;
-    const token = await sign({ role, id, name }, process.env.JWT_SEED ?? "");
+    const token = await generateJwt({ role, id, name }, 360_000);
+    // const token = await sign({ role, id, name }, process.env.JWT_SEED ?? "");
 
     return c.json({
       error: false,

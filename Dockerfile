@@ -13,6 +13,7 @@ COPY . .
 FROM base AS release
 COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /usr/app/ .
+RUN bunx prisma generate
 RUN chmod 777 node_modules
 
 ENTRYPOINT [ "bun", "run", "src/index.ts" ]

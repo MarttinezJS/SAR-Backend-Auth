@@ -26,8 +26,9 @@ export const getAll = async (
           active: true,
         },
       });
+
       const count =
-        (await prismaClient.$queryRaw`select count(*) as count from Usuarios`) as [
+        (await prismaClient.$queryRaw`select count(*) as count from "Usuarios"`) as [
           { count: string }
         ];
       resolve({
