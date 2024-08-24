@@ -1,5 +1,4 @@
 import { Context, Env } from "hono";
-import { sign } from "hono/jwt";
 import { findUser } from "../models";
 import { generateJwt } from "../services";
 

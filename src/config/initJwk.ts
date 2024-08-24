@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync, existsSync } from "fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from "fs";
 import { exportJWK, exportPKCS8, exportSPKI, generateKeyPair } from "jose";
 import { asn1, md, pki } from "node-forge";
 import { util } from "node-forge";
@@ -128,15 +128,33 @@ const generateJwk = async (
   };
 };
 
-export const initJwk = async () => {
-  const keyId = process.env.SECRET_SEED ?? "mFUCwg9u3YcX8z";
-  const { jwk, meta } = await generateJwk("RS256", 2048, keyId);
-  const dir = getAbsolutePath() + "/generated/jwk";
+const printPk = (publicKeyPem: string) => {
+  console.info(
+    "=============================Public key PEM============================="
+  );
+  console.info(publicKeyPem);
+  console.info(
+    "========================================================================"
+  );
+};
 
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true });
+export const initJwk = async () => {
+  let publicKeyPem;
+  const workDir = getAbsolutePath() + "/generated/jwk";
+  if (existsSync(`${workDir}/jwk-meta.json`)) {
+    const file = readFileSync(workDir + "/jwk-meta.json").toString();
+    publicKeyPem = JSON.parse(file).publicKeyPem;
+  } else {
+    const keyId = process.env.SECRET_SEED ?? "mFUCwg9u3YcX8z";
+    const { jwk, meta } = await generateJwk("RS256", 2048, keyId);
+    publicKeyPem = meta.publicKeyPem;
+    const dir = getAbsolutePath() + "/generated/jwk";
+
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+    writeFileSync(`${dir}/jwk.json`, JSON.stringify(jwk, null, 4));
+    writeFileSync(`${dir}/jwk-meta.json`, JSON.stringify(meta, null, 4));
   }
-  writeFileSync(`${dir}/jwk.json`, JSON.stringify(jwk, null, 4));
-  writeFileSync(`${dir}/jwk-meta.json`, JSON.stringify(meta, null, 4));
-  return { jwk, meta };
+  printPk(publicKeyPem);
 };

@@ -1,7 +1,7 @@
 import { Context, Env } from "hono";
 import { findUser, saveUser } from "../models";
-import { sign } from "jsonwebtoken";
-import { Usuarios } from "../generated/client";
+import { Usuarios } from "../../generated/client";
+import { generateJwt } from "../services";
 
 export const signUp = async (c: Context<Env, "/sign-up", {}>) => {
   const { password, ...body } = (await c.req.json()) as Usuarios;
@@ -22,7 +22,7 @@ export const signUp = async (c: Context<Env, "/sign-up", {}>) => {
       password: cryptPassword,
     })) as Usuarios;
     const { role, id, name } = user;
-    const token = await sign({ role, id, name }, process.env.JWT_SEED ?? "");
+    const token = await generateJwt({ role, id, name }, 360_000);
     return c.json(
       {
         error: false,
