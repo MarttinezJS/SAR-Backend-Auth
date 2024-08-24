@@ -1,9 +1,13 @@
 import { z } from "zod";
 
 export const userSchema = z.object({
-  name: z.string({
+  firstName: z.string({
     description: "Nombre de la persona.",
-    required_error: "Se necesita el nombre completo.",
+    required_error: "Se necesita los nombres.",
+  }),
+  lastName: z.string({
+    description: "Apellido de la persona.",
+    required_error: "Se necesitan los apellidos.",
   }),
   email: z
     .string({

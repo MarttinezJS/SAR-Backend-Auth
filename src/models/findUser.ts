@@ -1,4 +1,4 @@
-import { Usuarios } from "../generated/client";
+import { Usuarios } from "../../generated/client";
 import prismaClient from "../helpers/prismaClient";
 
 export const findUser = async (
@@ -13,15 +13,6 @@ export const findUser = async (
     try {
       const found = await prismaClient.usuarios.findUnique({
         where: { username },
-        select: {
-          active: true,
-          email: true,
-          eventsSupported: true,
-          id: true,
-          name: true,
-          role: true,
-          username: true,
-        },
       });
       resolve(found);
     } catch (error) {

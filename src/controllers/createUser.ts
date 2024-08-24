@@ -16,7 +16,8 @@ const createUser = async (c: Context<Env, "/", {}>) => {
         400
       );
     }
-    const resp = await saveUser({ ...body, password: cryptPassword });
+    let resp = await saveUser({ ...body, password: cryptPassword });
+
     return c.json(
       {
         error: false,

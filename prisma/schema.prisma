@@ -15,8 +15,9 @@ model Usuarios {
     username        String            @unique @map("usuario") @db.VarChar(20)
     role            Rol               @map("rol")
     password        String
-    name            String            @map("nombre") @db.VarChar(100)
-    chagePassword   Boolean?          @default(false) @map("cambiar_password")
+    firstName       String            @map("nombre") @db.VarChar(100)
+    lastName        String            @map("apellido") @db.VarChar(100)
+    changePassword  Boolean?          @default(false) @map("cambiar_password")
     active          Boolean?          @default(true) @map("activo")
     eventsSupported Usuario_Eventos[]
 }

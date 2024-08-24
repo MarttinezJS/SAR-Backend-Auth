@@ -6,6 +6,7 @@ const login = async (c: Context<Env, "/", {}>) => {
   const { username, password } = await c.req.json();
   try {
     const found = await findUser(username);
+
     if (found == null) {
       console.error("Usuario no existe");
 
@@ -17,7 +18,7 @@ const login = async (c: Context<Env, "/", {}>) => {
         400
       );
     }
-    if (found.password && !Bun.password.verifySync(password, found.password)) {
+    if (!found.password || !Bun.password.verifySync(password, found.password)) {
       console.error("Contraseña incorrecta");
       return c.json(
         {
@@ -27,9 +28,11 @@ const login = async (c: Context<Env, "/", {}>) => {
         400
       );
     }
-    const { role, id, name } = found;
-    const token = await generateJwt({ role, id, name }, 360_000);
-    // const token = await sign({ role, id, name }, process.env.JWT_SEED ?? "");
+    const { role, id, firstName, lastName } = found;
+    const token = await generateJwt(
+      { role, id, name: `${firstName} ${lastName}` },
+      360_000
+    );
 
     return c.json({
       error: false,

@@ -21,8 +21,11 @@ export const signUp = async (c: Context<Env, "/sign-up", {}>) => {
       ...body,
       password: cryptPassword,
     })) as Usuarios;
-    const { role, id, name } = user;
-    const token = await generateJwt({ role, id, name }, 360_000);
+    const { role, id, firstName, lastName } = user;
+    const token = await generateJwt(
+      { role, id, name: `${firstName} ${lastName}` },
+      360_000
+    );
     return c.json(
       {
         error: false,

@@ -12,6 +12,7 @@ CREATE TABLE "Usuarios" (
     "rol" "Rol" NOT NULL,
     "password" TEXT NOT NULL,
     "nombre" VARCHAR(100) NOT NULL,
+    "apellido" VARCHAR(100) NOT NULL,
     "cambiar_password" BOOLEAN DEFAULT false,
     "activo" BOOLEAN DEFAULT true,
 
