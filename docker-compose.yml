@@ -15,4 +15,5 @@ services:
     environment:
       PORT: 80
       DATABASE_URL: $DATABASE_URL
+      SECRET_SEED: $SECRET_SEED
     
