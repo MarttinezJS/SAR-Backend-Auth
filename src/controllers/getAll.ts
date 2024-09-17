@@ -4,9 +4,10 @@ import { getAll as getAllUser } from "../models";
 const getAll = async (c: Context<Env, "/", {}>) => {
   try {
     const { size, page } = await c.req.query();
+
     const users = await getAllUser(
-      Number.parseInt(page) ?? 0,
-      Number.parseInt(size) ?? 10
+      Number.parseInt(page ?? 0),
+      Number.parseInt(size ?? 10)
     );
     return c.json({
       status: 200,
@@ -14,12 +15,14 @@ const getAll = async (c: Context<Env, "/", {}>) => {
       message: "",
       body: users,
     });
-  } catch (error) {
+  } catch (error: any) {
+    console.warn(error);
+
     return c.json({
       status: 500,
       error: true,
       message: "Error de servidor",
-      body: error,
+      body: error.toString(),
     });
   }
 };

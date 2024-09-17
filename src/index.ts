@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { jwt } from "hono/jwt";
 import { loginSchema, userSchema } from "./schemas";
 import {
   checkToken,
@@ -10,18 +9,21 @@ import {
   signUp,
 } from "./controllers";
 import { validateFields } from "./middlewares/validateFields";
-import { initVault, secrets } from "./config/vaultConfig";
+import { initJwk } from "./config";
+import { decodeJwt, setBoundData } from "./services";
+import { verifyToken } from "./middlewares";
 
-const app = new Hono();
-const initServer = async () => {
-  await initVault();
+const serve = async () => {
+  const app = new Hono();
 
-  app.use(
-    "/users/*",
-    jwt({
-      secret: secrets.jwt_seed,
-    })
-  );
+  await initJwk();
+  setBoundData();
+
+  app.use("*", (c, next) => {
+    console.info(`${c.req.path} | ${c.req.method}`);
+    return next();
+  });
+  app.use("/users/*", verifyToken);
 
   app.get("/users", getAll);
   app.get("/users/token", checkToken);
@@ -38,4 +40,4 @@ const initServer = async () => {
   console.info(`Servidor corriendo en el puerto: ${process.env.PORT}`);
 };
 
-initServer();
+serve();

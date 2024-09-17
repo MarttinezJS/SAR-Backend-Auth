@@ -1,6 +1,6 @@
 import { Context, Env } from "hono";
 import { findUser, saveUser } from "../models";
-import { Usuarios } from "../generated/client";
+import { Usuarios } from "../../generated/client";
 
 const createUser = async (c: Context<Env, "/", {}>) => {
   const { password, ...body } = (await c.req.json()) as Usuarios;
@@ -16,7 +16,8 @@ const createUser = async (c: Context<Env, "/", {}>) => {
         400
       );
     }
-    const resp = await saveUser({ ...body, password: cryptPassword });
+    let resp = await saveUser({ ...body, password: cryptPassword });
+
     return c.json(
       {
         error: false,

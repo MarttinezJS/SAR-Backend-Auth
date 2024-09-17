@@ -7,16 +7,13 @@ services:
     container_name: sar-auth-backend
     image: sar-auth-backend:1.0.0
     build: .
+    volumes:
+      - ~/SigueAdelanteRadio/auth/secrets:/usr/app/generated/jwk
     restart: always
     networks:
       - sigue-adelante-radio
     environment:
       PORT: 80
       DATABASE_URL: $DATABASE_URL
-      PRISMA_BINARY: '["debian-openssl-1.1.x"]'
-      ROL_ID: $ROL_ID
-      SECRET_ID: $SECRET_ID
-      VAULT_HOST: vault
-      VAULT_PORT: 8200
-
+      SECRET_SEED: $SECRET_SEED
     

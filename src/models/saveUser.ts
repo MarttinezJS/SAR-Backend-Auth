@@ -1,7 +1,7 @@
-import { Usuarios } from "../generated/client";
+import { Usuarios } from "../../generated/client";
 import prismaClient from "../helpers/prismaClient";
 
-export const saveUser = async (user: Usuarios): Promise<Usuarios | unknown> => {
+export const saveUser = async (user: Usuarios): Promise<Partial<Usuarios>> => {
   return new Promise(async (resolve, reject) => {
     try {
       await prismaClient.$connect();

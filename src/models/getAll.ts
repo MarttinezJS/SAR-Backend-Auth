@@ -1,4 +1,4 @@
-import { Usuarios } from "../generated/client";
+import { Usuarios } from "../../generated/client";
 import prismaClient from "../helpers/prismaClient";
 
 export const getAll = async (
@@ -20,14 +20,17 @@ export const getAll = async (
           email: true,
           id: true,
           username: true,
-          name: true,
+          firstName: true,
+          lastName: true,
+          changePassword: true,
           eventsSupported: true,
           role: true,
           active: true,
         },
       });
+
       const count =
-        (await prismaClient.$queryRaw`select count(*) as count from Usuarios`) as [
+        (await prismaClient.$queryRaw`select count(*) as count from "Usuarios"`) as [
           { count: string }
         ];
       resolve({
