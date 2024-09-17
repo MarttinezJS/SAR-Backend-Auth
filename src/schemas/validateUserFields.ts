@@ -23,8 +23,4 @@ export const userSchema = z.object({
     description: "Contraseña de la cuenta",
     required_error: "La contraseña es requerida.",
   }),
-  role: z.string({
-    description: "Rol del usuario",
-    required_error: "Se necesita un rol para el usuario.",
-  }),
 });

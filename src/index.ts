@@ -10,28 +10,20 @@ import {
 } from "./controllers";
 import { validateFields } from "./middlewares/validateFields";
 import { initJwk } from "./config";
-import { setBoundData } from "./services";
+import { decodeJwt, setBoundData } from "./services";
 import { verifyToken } from "./middlewares";
 
 const serve = async () => {
+  const app = new Hono();
+
   await initJwk();
   setBoundData();
-  const app = new Hono();
-  app.use("/users/*", async (c, next) => {
-    const token = c.req.header("Authorization");
-    const pass = await verifyToken(token?.split(" ").pop());
-    if (pass) {
-      return next();
-    }
-    return c.json(
-      {
-        error: true,
-        status: 401,
-        message: "Usuario no autorizado",
-      },
-      401
-    );
+
+  app.use("*", (c, next) => {
+    console.info(`${c.req.path} | ${c.req.method}`);
+    return next();
   });
+  app.use("/users/*", verifyToken);
 
   app.get("/users", getAll);
   app.get("/users/token", checkToken);

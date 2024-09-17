@@ -41,7 +41,7 @@ export const generateJwt = async (
     .setExpirationTime(`${secondsToExpire}s`)
     .sign(privateKey);
   try {
-    const decryptedToken = await jwtVerify(token, publicKey);
+    const decryptedToken = await decodeJwt(token);
   } catch (error) {
     console.error("Token verification failed:", error);
   }
