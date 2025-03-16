@@ -6,11 +6,12 @@ import {
   gentUser,
   getAll,
   login,
+  registerFmToken,
   signUp,
 } from "./controllers";
 import { validateFields } from "./middlewares/validateFields";
 import { initJwk } from "./config";
-import { decodeJwt, setBoundData } from "./services";
+import { setBoundData } from "./services";
 import { verifyToken } from "./middlewares";
 
 const serve = async () => {
@@ -28,6 +29,7 @@ const serve = async () => {
   app.get("/users", getAll);
   app.get("/users/token", checkToken);
   app.get("/users/:id", gentUser);
+  app.post("/app/fm-token", registerFmToken);
   app.post("/users", validateFields(userSchema), createUser);
   app.post("/login", validateFields(loginSchema), login);
   app.post("/sign-up", validateFields(userSchema), signUp);
