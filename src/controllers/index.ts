@@ -4,3 +4,4 @@ export * from "./getAll";
 export * from "./getUser";
 export * from "./login";
 export * from "./signUp";
+export * from "./registerFmToken";
