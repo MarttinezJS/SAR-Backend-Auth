@@ -10,9 +10,10 @@ datasource db {
 }
 
 model UsuariosApp {
-  id       Int    @id @default(autoincrement())
+  id       Int      @id @default(autoincrement())
   token    String
-  deviceId String @map("dispositivo")
+  deviceId String   @unique @map("dispositivo")
+  update   DateTime @default(now())
 }
 
 model Usuarios {
